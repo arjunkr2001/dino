@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dino</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+        hr{
+            position: fixed;
+            top: 60vh;
+            width: 100vw;
+        }
+        #dino{
+            position: fixed;
+            bottom: 40vh;
+            width: 30px;
+            height: 100px;
+            background-color: cadetblue;
+            left: 200px;
+            transition: 0.4s;
+        }
+        .wall1{
+            position: fixed;
+            width: 15px;
+            height: 20px;
+            background-color: brown;
+
+            bottom: 40vh;
+            /* transition: 0.1s; */
+        }
+        .wall2{
+            position: fixed;
+            width: 17px;
+            height: 23px;
+            background-color: purple;
+
+            bottom: 40vh;
+            /* transition: 0.1s; */
+        }
+        .wall3{
+            position: fixed;
+            width: 15px;
+            height: 25px;
+            background-color: darkcyan;
+
+            bottom: 40vh;
+            /* transition: 0.1s; */
+        }
+    </style>
+</head>
+<body>
+    <div id="dino"></div>
+    <hr>
+
+    <script>
+        let d = document.getElementById("dino")
+        document.addEventListener("keydown",()=>{
+            d.style.bottom = "60vh"
+        })
+        d.addEventListener("transitionend",()=>{
+            d.style.bottom = "40vh"
+        })
+
+        let w1 = document.createElement("div")
+        let w2 = document.createElement("div")
+        let w3 = document.createElement("div")
+        w1.className = "wall1"
+        w2.className = "wall2"
+        w3.className = "wall3"
+        w1.style.left = `${screen.width}px`
+        w2.style.left = `${screen.width-200}px`
+        w3.style.left = `${screen.width+500}px`
+        let le1 = screen.width;
+        let le2 = screen.width-200;
+        let le3 = screen.width+500;
+        document.body.appendChild(w1)
+        document.body.appendChild(w2)
+        document.body.appendChild(w3)
+        let db,w1b,w2b,w3b
+        let intr = setInterval(()=>{
+            if(le1<0) le1 = screen.width
+            if(le2<0) le2 = screen.width - Math.floor(Math.random() * (250 - 170 + 1)) + 170
+            if(le3<0) le3 = screen.width + Math.floor(Math.random() * (550 - 350 + 1)) + 350
+            le1-=3
+            le2-=3
+            le3-=3
+            w1.style.left = `${le1}px`
+            w2.style.left = `${le2}px`
+            w3.style.left = `${le3}px`
+
+            db = d.getBoundingClientRect()
+            w1b = w1.getBoundingClientRect()
+            w2b = w2.getBoundingClientRect()
+            w3b = w3.getBoundingClientRect()
+            if((w1b.x>db.x && w1b.x<db.x+db.width && db.y+db.height>w1b.y)||(w2b.x>db.x && w2b.x<db.x+db.width && db.y+db.height>w2b.y)||(w3b.x>db.x && w3b.x<db.x+db.width && db.y+db.height>w3b.y)){
+                clearInterval(intr)
+            }
+        },10)
+    </script>
+</body>
+</html>
